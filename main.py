@@ -15,10 +15,18 @@ TEXT = (
 )
 
 
+def validate(text: str) -> None:
+    """Gate: 1-140 characters, not only whitespace, at most 20 words."""
+    if not 1 <= len(text) <= 140:
+        raise SystemExit("entry text fails the competition gate: length")
+    if not text.strip():
+        raise SystemExit("entry text fails the competition gate: blank")
+    if len(text.split()) > 20:
+        raise SystemExit("entry text fails the competition gate: words")
+
+
 def main() -> None:
-    # Gate: 1-140 characters, not only whitespace, at most 20 words.
-    if not 1 <= len(TEXT) <= 140 or not TEXT.strip() or len(TEXT.split()) > 20:
-        raise SystemExit("entry text fails the competition gate")
+    validate(TEXT)
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output"
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, "entry.txt"), "w", encoding="utf-8") as f:
